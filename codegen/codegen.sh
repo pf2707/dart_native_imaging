@@ -4,4 +4,4 @@
 
 cd "$(dirname "$0")"/..
 codegen/autojs.jq < lib/native.dart > lib/js.dart
-printf '#include "%s"\n' extra.h | gcc -I src -E - | codegen/autoffi.jq > lib/src/ffi.dart
+printf '#include "%s"\n' ios/src/extra.h | gcc -I ios/src -I ios/src/blurhash -E - | codegen/autoffi.jq > lib/src/ffi.dart

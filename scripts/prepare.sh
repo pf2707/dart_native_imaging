@@ -4,5 +4,5 @@
 
 mkdir -p build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release ../src
+cmake -DCMAKE_BUILD_TYPE=Release ../ios/src
 cmake --build .
