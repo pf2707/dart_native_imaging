@@ -1,5 +1,5 @@
 #include "Imaging.h"
-#include "blurhash/encode.h"
+#include "encode.h"
 
 Imaging imageFromRGBA(int width, int height, uint8_t* data);
 const char* imageMode(Imaging im);
