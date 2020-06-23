@@ -1,3 +1,5 @@
+export 'native.dart' if (dart.library.js) 'js.dart';
+
 import 'dart:async';
 
 import 'package:flutter/services.dart';
