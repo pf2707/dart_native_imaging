@@ -719,11 +719,6 @@ final ImagingConvertYCbCr2RGB = libImaging.lookupFunction<
   void Function(Pointer<Uint8> c_out, Pointer<Uint8> c_in, int pixels)
 >('ImagingConvertYCbCr2RGB');
 
-final blurHashForPixels = libImaging.lookupFunction<
-  Pointer<Utf8> Function(Int32 xComponents, Int32 yComponents, Int32 width, Int32 height, Pointer<Uint8> rgb, IntPtr bytesPerRow),
-  Pointer<Utf8> Function(int xComponents, int yComponents, int width, int height, Pointer<Uint8> rgb, int bytesPerRow)
->('blurHashForPixels');
-
 final imageFromRGBA = libImaging.lookupFunction<
   Pointer<NativeType> Function(Int32 width, Int32 height, Pointer<Uint8> data),
   Pointer<NativeType> Function(int width, int height, Pointer<Uint8> data)
@@ -753,6 +748,11 @@ final imageBlock = libImaging.lookupFunction<
   Pointer<Uint8> Function(Pointer<NativeType> im),
   Pointer<Uint8> Function(Pointer<NativeType> im)
 >('imageBlock');
+
+final blurHashForImage = libImaging.lookupFunction<
+  Pointer<Utf8> Function(Pointer<NativeType> im, Int32 xComponents, Int32 yComponents),
+  Pointer<Utf8> Function(Pointer<NativeType> im, int xComponents, int yComponents)
+>('blurHashForImage');
 
 final jpegEncode = libImaging.lookupFunction<
   Void Function(Pointer<NativeType> im, Int32 quality, Pointer<Pointer<Uint8>> data, Pointer<IntPtr> size),

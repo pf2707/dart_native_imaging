@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "extra.h"
+#include "encode.h"
 #undef INT16
 #undef INT32
 #include <jpeglib.h>
@@ -53,6 +54,11 @@ int imageLinesize(Imaging im)
 uint8_t* imageBlock(Imaging im)
 {
 	return im->block;
+}
+
+const char* blurHashForImage(Imaging im, int xComponents, int yComponents)
+{
+	return blurHashForPixels(xComponents, yComponents, im->xsize, im->ysize, im->block, im->linesize);
 }
 
 void jpegEncode(Imaging im, int quality, uint8_t** data, size_t* size)

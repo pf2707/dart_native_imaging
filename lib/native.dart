@@ -118,8 +118,7 @@ class Image {
   }
 
   String toBlurhash(int xComponents, int yComponents) {
-    return Utf8.fromUtf8(blurHashForPixels(
-        xComponents, yComponents, width(), height(), block(), linesize()));
+    return Utf8.fromUtf8(blurHashForImage(_inst, xComponents, yComponents));
   }
 
   Uint8List toJpeg(int quality) {
