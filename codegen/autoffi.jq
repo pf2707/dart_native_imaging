@@ -61,7 +61,7 @@ import 'package:ffi/ffi.dart';",
 
 ( inputs
 | balanced
-| capture("(extern +)?(?<type>[^(]*[ *])(?<name>(Imaging|image|jpeg|blurHash)[^ ()*]+) *\\((?<args>|[^(].*[^)])\\);")
+| capture("(extern +)?IMAGING_EXPORT (?<type>[^(]*[ *])(?<name>(Imaging|image|jpeg|blurHash)[^ ()*]+) *\\((?<args>|[^(].*[^)])\\);")
 | .args |= (sub("^ *void *$"; "") | split(",") | map(capture("(?<type>.*[ *])(?<name>[^ *]+)") | namt | translate))
 | translate
 | if .args + [.] | map(.ntype | select(. == "NativeType")) | length != 0 then empty else . end

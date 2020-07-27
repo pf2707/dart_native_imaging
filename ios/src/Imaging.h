@@ -12,6 +12,7 @@
 
 
 #include "ImPlatform.h"
+#include "imaging_export.h"
 
 
 #if defined(__cplusplus)
@@ -180,66 +181,66 @@ typedef struct ImagingMemoryArena {
 /* Objects */
 /* ------- */
 
-extern struct ImagingMemoryArena ImagingDefaultArena;
-extern int ImagingMemorySetBlocksMax(ImagingMemoryArena arena, int blocks_max);
-extern void ImagingMemoryClearCache(ImagingMemoryArena arena, int new_size);
+extern IMAGING_EXPORT struct ImagingMemoryArena ImagingDefaultArena;
+extern IMAGING_EXPORT int ImagingMemorySetBlocksMax(ImagingMemoryArena arena, int blocks_max);
+extern IMAGING_EXPORT void ImagingMemoryClearCache(ImagingMemoryArena arena, int new_size);
 
-extern Imaging ImagingNew(const char* mode, int xsize, int ysize);
-extern Imaging ImagingNewDirty(const char* mode, int xsize, int ysize);
-extern Imaging ImagingNew2Dirty(const char* mode, Imaging imOut, Imaging imIn);
-extern void    ImagingDelete(Imaging im);
+extern IMAGING_EXPORT Imaging ImagingNew(const char* mode, int xsize, int ysize);
+extern IMAGING_EXPORT Imaging ImagingNewDirty(const char* mode, int xsize, int ysize);
+extern IMAGING_EXPORT Imaging ImagingNew2Dirty(const char* mode, Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT void    ImagingDelete(Imaging im);
 
-extern Imaging ImagingNewBlock(const char* mode, int xsize, int ysize);
-extern Imaging ImagingNewMap(const char* filename, int readonly,
+extern IMAGING_EXPORT Imaging ImagingNewBlock(const char* mode, int xsize, int ysize);
+extern IMAGING_EXPORT Imaging ImagingNewMap(const char* filename, int readonly,
                              const char* mode, int xsize, int ysize);
 
-extern Imaging ImagingNewPrologue(const char *mode,
+extern IMAGING_EXPORT Imaging ImagingNewPrologue(const char *mode,
                                   int xsize, int ysize);
-extern Imaging ImagingNewPrologueSubtype(const char *mode,
+extern IMAGING_EXPORT Imaging ImagingNewPrologueSubtype(const char *mode,
                                          int xsize, int ysize,
                                          int structure_size);
 
-extern void ImagingCopyPalette(Imaging destination, Imaging source);
+extern IMAGING_EXPORT void ImagingCopyPalette(Imaging destination, Imaging source);
 
-extern void ImagingHistogramDelete(ImagingHistogram histogram);
+extern IMAGING_EXPORT void ImagingHistogramDelete(ImagingHistogram histogram);
 
-extern void ImagingAccessInit(void);
-extern ImagingAccess ImagingAccessNew(Imaging im);
-extern void _ImagingAccessDelete(Imaging im, ImagingAccess access);
+extern IMAGING_EXPORT void ImagingAccessInit(void);
+extern IMAGING_EXPORT ImagingAccess ImagingAccessNew(Imaging im);
+extern IMAGING_EXPORT void _ImagingAccessDelete(Imaging im, ImagingAccess access);
 #define ImagingAccessDelete(im, access) /* nop, for now */
 
-extern ImagingPalette ImagingPaletteNew(const char *mode);
-extern ImagingPalette ImagingPaletteNewBrowser(void);
-extern ImagingPalette ImagingPaletteDuplicate(ImagingPalette palette);
-extern void           ImagingPaletteDelete(ImagingPalette palette);
+extern IMAGING_EXPORT ImagingPalette ImagingPaletteNew(const char *mode);
+extern IMAGING_EXPORT ImagingPalette ImagingPaletteNewBrowser(void);
+extern IMAGING_EXPORT ImagingPalette ImagingPaletteDuplicate(ImagingPalette palette);
+extern IMAGING_EXPORT void           ImagingPaletteDelete(ImagingPalette palette);
 
-extern int  ImagingPaletteCachePrepare(ImagingPalette palette);
-extern void ImagingPaletteCacheUpdate(ImagingPalette palette,
+extern IMAGING_EXPORT int  ImagingPaletteCachePrepare(ImagingPalette palette);
+extern IMAGING_EXPORT void ImagingPaletteCacheUpdate(ImagingPalette palette,
                                       int r, int g, int b);
-extern void ImagingPaletteCacheDelete(ImagingPalette palette);
+extern IMAGING_EXPORT void ImagingPaletteCacheDelete(ImagingPalette palette);
 
 #define ImagingPaletteCache(p, r, g, b)\
     p->cache[(r>>2) + (g>>2)*64 + (b>>2)*64*64]
 
-extern Imaging ImagingQuantize(Imaging im, int colours, int mode, int kmeans);
+extern IMAGING_EXPORT Imaging ImagingQuantize(Imaging im, int colours, int mode, int kmeans);
 
 /* Threading */
 /* --------- */
 
 typedef void* ImagingSectionCookie;
 
-extern void ImagingSectionEnter(ImagingSectionCookie* cookie);
-extern void ImagingSectionLeave(ImagingSectionCookie* cookie);
+extern IMAGING_EXPORT void ImagingSectionEnter(ImagingSectionCookie* cookie);
+extern IMAGING_EXPORT void ImagingSectionLeave(ImagingSectionCookie* cookie);
 
 /* Exceptions */
 /* ---------- */
 
-extern void* ImagingError_OSError(void);
-extern void* ImagingError_MemoryError(void);
-extern void* ImagingError_ModeError(void); /* maps to ValueError by default */
-extern void* ImagingError_Mismatch(void); /* maps to ValueError by default */
-extern void* ImagingError_ValueError(const char* message);
-extern void ImagingError_Clear(void);
+extern IMAGING_EXPORT void* ImagingError_OSError(void);
+extern IMAGING_EXPORT void* ImagingError_MemoryError(void);
+extern IMAGING_EXPORT void* ImagingError_ModeError(void); /* maps to ValueError by default */
+extern IMAGING_EXPORT void* ImagingError_Mismatch(void); /* maps to ValueError by default */
+extern IMAGING_EXPORT void* ImagingError_ValueError(const char* message);
+extern IMAGING_EXPORT void ImagingError_Clear(void);
 
 /* Transform callbacks */
 /* ------------------- */
@@ -266,155 +267,155 @@ typedef int (*ImagingTransformFilter)(void* out, Imaging im,
 /* Image Manipulation Methods */
 /* -------------------------- */
 
-extern Imaging ImagingAlphaComposite(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingBlend(Imaging imIn1, Imaging imIn2, float alpha);
-extern Imaging ImagingCopy(Imaging im);
-extern Imaging ImagingConvert(Imaging im, const char* mode, ImagingPalette palette, int dither);
-extern Imaging ImagingConvertInPlace(Imaging im, const char* mode);
-extern Imaging ImagingConvertMatrix(Imaging im, const char *mode, float m[]);
-extern Imaging ImagingConvertTransparent(Imaging im, const char *mode, int r, int g, int b);
-extern Imaging ImagingCrop(Imaging im, int x0, int y0, int x1, int y1);
-extern Imaging ImagingExpand(Imaging im, int x, int y, int mode);
-extern Imaging ImagingFill(Imaging im, const void* ink);
-extern int ImagingFill2(
+extern IMAGING_EXPORT Imaging ImagingAlphaComposite(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingBlend(Imaging imIn1, Imaging imIn2, float alpha);
+extern IMAGING_EXPORT Imaging ImagingCopy(Imaging im);
+extern IMAGING_EXPORT Imaging ImagingConvert(Imaging im, const char* mode, ImagingPalette palette, int dither);
+extern IMAGING_EXPORT Imaging ImagingConvertInPlace(Imaging im, const char* mode);
+extern IMAGING_EXPORT Imaging ImagingConvertMatrix(Imaging im, const char *mode, float m[]);
+extern IMAGING_EXPORT Imaging ImagingConvertTransparent(Imaging im, const char *mode, int r, int g, int b);
+extern IMAGING_EXPORT Imaging ImagingCrop(Imaging im, int x0, int y0, int x1, int y1);
+extern IMAGING_EXPORT Imaging ImagingExpand(Imaging im, int x, int y, int mode);
+extern IMAGING_EXPORT Imaging ImagingFill(Imaging im, const void* ink);
+extern IMAGING_EXPORT int ImagingFill2(
     Imaging into, const void* ink, Imaging mask,
     int x0, int y0, int x1, int y1);
-extern Imaging ImagingFillBand(Imaging im, int band, int color);
-extern Imaging ImagingFillLinearGradient(const char* mode);
-extern Imaging ImagingFillRadialGradient(const char* mode);
-extern Imaging ImagingFilter(
+extern IMAGING_EXPORT Imaging ImagingFillBand(Imaging im, int band, int color);
+extern IMAGING_EXPORT Imaging ImagingFillLinearGradient(const char* mode);
+extern IMAGING_EXPORT Imaging ImagingFillRadialGradient(const char* mode);
+extern IMAGING_EXPORT Imaging ImagingFilter(
     Imaging im, int xsize, int ysize, const FLOAT32* kernel,
     FLOAT32 offset);
-extern Imaging ImagingFlipLeftRight(Imaging imOut, Imaging imIn);
-extern Imaging ImagingFlipTopBottom(Imaging imOut, Imaging imIn);
-extern Imaging ImagingGaussianBlur(Imaging imOut, Imaging imIn, float radius,
+extern IMAGING_EXPORT Imaging ImagingFlipLeftRight(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingFlipTopBottom(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingGaussianBlur(Imaging imOut, Imaging imIn, float radius,
                                    int passes);
-extern Imaging ImagingGetBand(Imaging im, int band);
-extern Imaging ImagingMerge(const char* mode, Imaging bands[4]);
-extern int ImagingSplit(Imaging im, Imaging bands[4]);
-extern int ImagingGetBBox(Imaging im, int bbox[4]);
+extern IMAGING_EXPORT Imaging ImagingGetBand(Imaging im, int band);
+extern IMAGING_EXPORT Imaging ImagingMerge(const char* mode, Imaging bands[4]);
+extern IMAGING_EXPORT int ImagingSplit(Imaging im, Imaging bands[4]);
+extern IMAGING_EXPORT int ImagingGetBBox(Imaging im, int bbox[4]);
 typedef struct { int x, y; INT32 count; INT32 pixel; } ImagingColorItem;
-extern ImagingColorItem* ImagingGetColors(Imaging im, int maxcolors,
+extern IMAGING_EXPORT ImagingColorItem* ImagingGetColors(Imaging im, int maxcolors,
                                           int *colors);
-extern int ImagingGetExtrema(Imaging im, void *extrema);
-extern int ImagingGetProjection(Imaging im, UINT8* xproj, UINT8* yproj);
-extern ImagingHistogram ImagingGetHistogram(
+extern IMAGING_EXPORT int ImagingGetExtrema(Imaging im, void *extrema);
+extern IMAGING_EXPORT int ImagingGetProjection(Imaging im, UINT8* xproj, UINT8* yproj);
+extern IMAGING_EXPORT ImagingHistogram ImagingGetHistogram(
     Imaging im, Imaging mask, void *extrema);
-extern Imaging ImagingModeFilter(Imaging im, int size);
-extern Imaging ImagingNegative(Imaging im);
-extern Imaging ImagingOffset(Imaging im, int xoffset, int yoffset);
-extern int ImagingPaste(
+extern IMAGING_EXPORT Imaging ImagingModeFilter(Imaging im, int size);
+extern IMAGING_EXPORT Imaging ImagingNegative(Imaging im);
+extern IMAGING_EXPORT Imaging ImagingOffset(Imaging im, int xoffset, int yoffset);
+extern IMAGING_EXPORT int ImagingPaste(
     Imaging into, Imaging im, Imaging mask,
     int x0, int y0, int x1, int y1);
-extern Imaging ImagingPoint(
+extern IMAGING_EXPORT Imaging ImagingPoint(
     Imaging im, const char* tablemode, const void* table);
-extern Imaging ImagingPointTransform(
+extern IMAGING_EXPORT Imaging ImagingPointTransform(
     Imaging imIn, double scale, double offset);
-extern Imaging ImagingPutBand(Imaging im, Imaging imIn, int band);
-extern Imaging ImagingRankFilter(Imaging im, int size, int rank);
-extern Imaging ImagingRotate90(Imaging imOut, Imaging imIn);
-extern Imaging ImagingRotate180(Imaging imOut, Imaging imIn);
-extern Imaging ImagingRotate270(Imaging imOut, Imaging imIn);
-extern Imaging ImagingTranspose(Imaging imOut, Imaging imIn);
-extern Imaging ImagingTransverse(Imaging imOut, Imaging imIn);
-extern Imaging ImagingResample(Imaging imIn, int xsize, int ysize, int filter, float box[4]);
-extern Imaging ImagingReduce(Imaging imIn, int xscale, int yscale, int box[4]);
-extern Imaging ImagingTransform(
+extern IMAGING_EXPORT Imaging ImagingPutBand(Imaging im, Imaging imIn, int band);
+extern IMAGING_EXPORT Imaging ImagingRankFilter(Imaging im, int size, int rank);
+extern IMAGING_EXPORT Imaging ImagingRotate90(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingRotate180(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingRotate270(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingTranspose(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingTransverse(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingResample(Imaging imIn, int xsize, int ysize, int filter, float box[4]);
+extern IMAGING_EXPORT Imaging ImagingReduce(Imaging imIn, int xscale, int yscale, int box[4]);
+extern IMAGING_EXPORT Imaging ImagingTransform(
     Imaging imOut, Imaging imIn, int method, int x0, int y0, int x1, int y1,
     double *a, int filter, int fill);
-extern Imaging ImagingUnsharpMask(
+extern IMAGING_EXPORT Imaging ImagingUnsharpMask(
     Imaging imOut, Imaging im, float radius, int percent, int threshold);
-extern Imaging ImagingBoxBlur(Imaging imOut, Imaging imIn, float radius, int n);
-extern Imaging ImagingColorLUT3D_linear(Imaging imOut, Imaging imIn,
+extern IMAGING_EXPORT Imaging ImagingBoxBlur(Imaging imOut, Imaging imIn, float radius, int n);
+extern IMAGING_EXPORT Imaging ImagingColorLUT3D_linear(Imaging imOut, Imaging imIn,
     int table_channels, int size1D, int size2D, int size3D, INT16* table);
 
-extern Imaging ImagingCopy2(Imaging imOut, Imaging imIn);
-extern Imaging ImagingConvert2(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingCopy2(Imaging imOut, Imaging imIn);
+extern IMAGING_EXPORT Imaging ImagingConvert2(Imaging imOut, Imaging imIn);
 
 /* Channel operations */
 /* any mode, except "F" */
-extern Imaging ImagingChopLighter(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopDarker(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopDifference(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopMultiply(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopScreen(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopAdd(
+extern IMAGING_EXPORT Imaging ImagingChopLighter(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopDarker(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopDifference(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopMultiply(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopScreen(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopAdd(
     Imaging imIn1, Imaging imIn2, float scale, int offset);
-extern Imaging ImagingChopSubtract(
+extern IMAGING_EXPORT Imaging ImagingChopSubtract(
     Imaging imIn1, Imaging imIn2, float scale, int offset);
-extern Imaging ImagingChopAddModulo(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopSubtractModulo(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopSoftLight(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopHardLight(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingOverlay(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopAddModulo(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopSubtractModulo(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopSoftLight(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopHardLight(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingOverlay(Imaging imIn1, Imaging imIn2);
 
 /* "1" images only */
-extern Imaging ImagingChopAnd(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopOr(Imaging imIn1, Imaging imIn2);
-extern Imaging ImagingChopXor(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopAnd(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopOr(Imaging imIn1, Imaging imIn2);
+extern IMAGING_EXPORT Imaging ImagingChopXor(Imaging imIn1, Imaging imIn2);
 
 /* Image measurement */
-extern void ImagingCrack(Imaging im, int x0, int y0);
+extern IMAGING_EXPORT void ImagingCrack(Imaging im, int x0, int y0);
 
 /* Graphics */
-extern int ImagingDrawArc(Imaging im, int x0, int y0, int x1, int y1,
+extern IMAGING_EXPORT int ImagingDrawArc(Imaging im, int x0, int y0, int x1, int y1,
                           float start, float end, const void* ink, int width,
                           int op);
-extern int ImagingDrawBitmap(Imaging im, int x0, int y0, Imaging bitmap,
+extern IMAGING_EXPORT int ImagingDrawBitmap(Imaging im, int x0, int y0, Imaging bitmap,
                              const void* ink, int op);
-extern int ImagingDrawChord(Imaging im, int x0, int y0, int x1, int y1,
+extern IMAGING_EXPORT int ImagingDrawChord(Imaging im, int x0, int y0, int x1, int y1,
                             float start, float end, const void* ink, int fill,
                             int width, int op);
-extern int ImagingDrawEllipse(Imaging im, int x0, int y0, int x1, int y1,
+extern IMAGING_EXPORT int ImagingDrawEllipse(Imaging im, int x0, int y0, int x1, int y1,
                               const void* ink, int fill, int width, int op);
-extern int ImagingDrawLine(Imaging im, int x0, int y0, int x1, int y1,
+extern IMAGING_EXPORT int ImagingDrawLine(Imaging im, int x0, int y0, int x1, int y1,
                            const void* ink, int op);
-extern int ImagingDrawWideLine(Imaging im, int x0, int y0, int x1, int y1,
+extern IMAGING_EXPORT int ImagingDrawWideLine(Imaging im, int x0, int y0, int x1, int y1,
                                const void* ink, int width, int op);
-extern int ImagingDrawPieslice(Imaging im, int x0, int y0, int x1, int y1,
+extern IMAGING_EXPORT int ImagingDrawPieslice(Imaging im, int x0, int y0, int x1, int y1,
                                float start, float end, const void* ink, int fill,
                                int width, int op);
-extern int ImagingDrawPoint(Imaging im, int x, int y, const void* ink, int op);
-extern int ImagingDrawPolygon(Imaging im, int points, int *xy,
+extern IMAGING_EXPORT int ImagingDrawPoint(Imaging im, int x, int y, const void* ink, int op);
+extern IMAGING_EXPORT int ImagingDrawPolygon(Imaging im, int points, int *xy,
                               const void* ink, int fill, int op);
-extern int ImagingDrawRectangle(Imaging im, int x0, int y0, int x1, int y1,
+extern IMAGING_EXPORT int ImagingDrawRectangle(Imaging im, int x0, int y0, int x1, int y1,
                                 const void* ink, int fill, int width, int op);
 
 /* Level 2 graphics (WORK IN PROGRESS) */
-extern ImagingOutline ImagingOutlineNew(void);
-extern void ImagingOutlineDelete(ImagingOutline outline);
+extern IMAGING_EXPORT ImagingOutline ImagingOutlineNew(void);
+extern IMAGING_EXPORT void ImagingOutlineDelete(ImagingOutline outline);
 
-extern int ImagingDrawOutline(Imaging im, ImagingOutline outline,
+extern IMAGING_EXPORT int ImagingDrawOutline(Imaging im, ImagingOutline outline,
                               const void* ink, int fill, int op);
 
-extern int ImagingOutlineMove(ImagingOutline outline, float x, float y);
-extern int ImagingOutlineLine(ImagingOutline outline, float x, float y);
-extern int ImagingOutlineCurve(ImagingOutline outline, float x1, float y1,
+extern IMAGING_EXPORT int ImagingOutlineMove(ImagingOutline outline, float x, float y);
+extern IMAGING_EXPORT int ImagingOutlineLine(ImagingOutline outline, float x, float y);
+extern IMAGING_EXPORT int ImagingOutlineCurve(ImagingOutline outline, float x1, float y1,
                                float x2, float y2, float x3, float y3);
-extern int ImagingOutlineTransform(ImagingOutline outline, double a[6]);
+extern IMAGING_EXPORT int ImagingOutlineTransform(ImagingOutline outline, double a[6]);
 
-extern int ImagingOutlineClose(ImagingOutline outline);
+extern IMAGING_EXPORT int ImagingOutlineClose(ImagingOutline outline);
 
 /* Special effects */
-extern Imaging ImagingEffectSpread(Imaging imIn, int distance);
-extern Imaging ImagingEffectNoise(int xsize, int ysize, float sigma);
-extern Imaging ImagingEffectMandelbrot(int xsize, int ysize,
+extern IMAGING_EXPORT Imaging ImagingEffectSpread(Imaging imIn, int distance);
+extern IMAGING_EXPORT Imaging ImagingEffectNoise(int xsize, int ysize, float sigma);
+extern IMAGING_EXPORT Imaging ImagingEffectMandelbrot(int xsize, int ysize,
                                        double extent[4], int quality);
 
 /* Obsolete */
-extern int ImagingToString(Imaging im, int orientation, char *buffer);
-extern int ImagingFromString(Imaging im, int orientation, char *buffer);
+extern IMAGING_EXPORT int ImagingToString(Imaging im, int orientation, char *buffer);
+extern IMAGING_EXPORT int ImagingFromString(Imaging im, int orientation, char *buffer);
 
 
 /* File I/O */
 /* -------- */
 
 /* Built-in drivers */
-extern Imaging ImagingOpenPPM(const char* filename);
-extern int ImagingSavePPM(Imaging im, const char* filename);
+extern IMAGING_EXPORT Imaging ImagingOpenPPM(const char* filename);
+extern IMAGING_EXPORT int ImagingSavePPM(Imaging im, const char* filename);
 
 /* Utility functions */
-extern UINT32 ImagingCRC32(UINT32 crc, UINT8* buffer, int bytes);
+extern IMAGING_EXPORT UINT32 ImagingCRC32(UINT32 crc, UINT8* buffer, int bytes);
 
 /* Codecs */
 struct ImagingCodecStateInstance;
@@ -422,96 +423,96 @@ struct ImagingCodecStateInstance;
 typedef int (*ImagingCodec)(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
 
-extern int ImagingBcnDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingBcnDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingBitDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingBitDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingEpsEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingEpsEncode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
-extern int ImagingFliDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingFliDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingGifDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingGifDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingGifEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingGifEncode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
-extern int ImagingHexDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingHexDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
 #ifdef  HAVE_LIBJPEG
-extern int ImagingJpegDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingJpegDecode(Imaging im, ImagingCodecState state,
                              UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingJpegDecodeCleanup(ImagingCodecState state);
-extern int ImagingJpegUseJCSExtensions(void);
+extern IMAGING_EXPORT int ImagingJpegDecodeCleanup(ImagingCodecState state);
+extern IMAGING_EXPORT int ImagingJpegUseJCSExtensions(void);
 
-extern int ImagingJpegEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingJpegEncode(Imaging im, ImagingCodecState state,
                              UINT8* buffer, int bytes);
 #endif
 #ifdef HAVE_OPENJPEG
-extern int ImagingJpeg2KDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingJpeg2KDecode(Imaging im, ImagingCodecState state,
                                UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingJpeg2KDecodeCleanup(ImagingCodecState state);
-extern int ImagingJpeg2KEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingJpeg2KDecodeCleanup(ImagingCodecState state);
+extern IMAGING_EXPORT int ImagingJpeg2KEncode(Imaging im, ImagingCodecState state,
                                UINT8* buffer, int bytes);
-extern int ImagingJpeg2KEncodeCleanup(ImagingCodecState state);
+extern IMAGING_EXPORT int ImagingJpeg2KEncodeCleanup(ImagingCodecState state);
 #endif
 #ifdef  HAVE_LIBTIFF
-extern int ImagingLibTiffDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingLibTiffDecode(Imaging im, ImagingCodecState state,
                                 UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingLibTiffEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingLibTiffEncode(Imaging im, ImagingCodecState state,
                                 UINT8* buffer, int bytes);
 #endif
 #ifdef  HAVE_LIBMPEG
-extern int ImagingMpegDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingMpegDecode(Imaging im, ImagingCodecState state,
                              UINT8* buffer, Py_ssize_t bytes);
 #endif
-extern int ImagingMspDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingMspDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingPackbitsDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingPackbitsDecode(Imaging im, ImagingCodecState state,
                                  UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingPcdDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingPcdDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingPcxDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingPcxDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingPcxEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingPcxEncode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
-extern int ImagingRawDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingRawDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingRawEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingRawEncode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
-extern int ImagingSgiRleDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingSgiRleDecode(Imaging im, ImagingCodecState state,
                                UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingSgiRleDecodeCleanup(ImagingCodecState state);
-extern int ImagingSunRleDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingSgiRleDecodeCleanup(ImagingCodecState state);
+extern IMAGING_EXPORT int ImagingSunRleDecode(Imaging im, ImagingCodecState state,
                                UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingTgaRleDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingTgaRleDecode(Imaging im, ImagingCodecState state,
                                UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingTgaRleEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingTgaRleEncode(Imaging im, ImagingCodecState state,
                                UINT8* buffer, int bytes);
-extern int ImagingXbmDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingXbmDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingXbmEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingXbmEncode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
 #ifdef  HAVE_LIBZ
-extern int ImagingZipDecode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingZipDecode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, Py_ssize_t bytes);
-extern int ImagingZipDecodeCleanup(ImagingCodecState state);
-extern int ImagingZipEncode(Imaging im, ImagingCodecState state,
+extern IMAGING_EXPORT int ImagingZipDecodeCleanup(ImagingCodecState state);
+extern IMAGING_EXPORT int ImagingZipEncode(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
-extern int ImagingZipEncodeCleanup(ImagingCodecState state);
+extern IMAGING_EXPORT int ImagingZipEncodeCleanup(ImagingCodecState state);
 #endif
 
 typedef void (*ImagingShuffler)(UINT8* out, const UINT8* in, int pixels);
 
 /* Public shufflers */
-extern void ImagingPackBGR(UINT8* out, const UINT8* in, int pixels);
-extern void ImagingUnpackYCC(UINT8* out, const UINT8* in, int pixels);
-extern void ImagingUnpackYCCA(UINT8* out, const UINT8* in, int pixels);
+extern IMAGING_EXPORT void ImagingPackBGR(UINT8* out, const UINT8* in, int pixels);
+extern IMAGING_EXPORT void ImagingUnpackYCC(UINT8* out, const UINT8* in, int pixels);
+extern IMAGING_EXPORT void ImagingUnpackYCCA(UINT8* out, const UINT8* in, int pixels);
 
-extern void ImagingConvertRGB2YCbCr(UINT8* out, const UINT8* in, int pixels);
-extern void ImagingConvertYCbCr2RGB(UINT8* out, const UINT8* in, int pixels);
+extern IMAGING_EXPORT void ImagingConvertRGB2YCbCr(UINT8* out, const UINT8* in, int pixels);
+extern IMAGING_EXPORT void ImagingConvertYCbCr2RGB(UINT8* out, const UINT8* in, int pixels);
 
-extern ImagingShuffler ImagingFindUnpacker(const char* mode,
+extern IMAGING_EXPORT ImagingShuffler ImagingFindUnpacker(const char* mode,
                                            const char* rawmode, int* bits_out);
-extern ImagingShuffler ImagingFindPacker(const char* mode,
+extern IMAGING_EXPORT ImagingShuffler ImagingFindPacker(const char* mode,
                                          const char* rawmode, int* bits_out);
 
 struct ImagingCodecStateInstance {

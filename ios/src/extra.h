@@ -1,10 +1,11 @@
 #include "Imaging.h"
+#include "imaging_export.h"
 
-Imaging imageFromRGBA(int width, int height, uint8_t* data);
-const char* imageMode(Imaging im);
-int imageWidth(Imaging im);
-int imageHeight(Imaging im);
-int imageLinesize(Imaging im);
-uint8_t* imageBlock(Imaging im);
-const char* blurHashForImage(Imaging im, int xComponents, int yComponents);
-void jpegEncode(Imaging im, int quality, uint8_t** data, size_t* size);
+IMAGING_EXPORT Imaging imageFromRGBA(int width, int height, uint8_t* data);
+IMAGING_EXPORT const char* imageMode(Imaging im);
+IMAGING_EXPORT int imageWidth(Imaging im);
+IMAGING_EXPORT int imageHeight(Imaging im);
+IMAGING_EXPORT int imageLinesize(Imaging im);
+IMAGING_EXPORT uint8_t* imageBlock(Imaging im);
+IMAGING_EXPORT const char* blurHashForImage(Imaging im, int xComponents, int yComponents);
+IMAGING_EXPORT void jpegEncode(Imaging im, int quality, uint8_t** data, size_t* size);
