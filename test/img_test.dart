@@ -17,7 +17,8 @@ void main() async {
     im.free();
     im2.free();
 
-    new File('file.jpg').writeAsBytes(blob);
-    print(blurhash);
+    expect(blob[0], 0xff);
+    expect(blob[1], 0xd8);
+    expect(blurhash, "L00000fQfQfQfQfQfQfQfQfQfQfQ");
   });
 }
