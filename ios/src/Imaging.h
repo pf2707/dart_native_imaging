@@ -57,6 +57,12 @@ extern "C" {
 
 /* Handles */
 
+struct ImagingMemoryInstance;
+struct ImagingAccessInstance;
+struct ImagingHistogramInstance;
+struct ImagingOutlineInstance;
+struct ImagingPaletteInstance;
+
 #define Imaging struct ImagingMemoryInstance*
 #define ImagingAccess struct ImagingAccessInstance*
 #define ImagingHistogram struct ImagingHistogramInstance*
@@ -411,6 +417,7 @@ extern int ImagingSavePPM(Imaging im, const char* filename);
 extern UINT32 ImagingCRC32(UINT32 crc, UINT8* buffer, int bytes);
 
 /* Codecs */
+struct ImagingCodecStateInstance;
 #define ImagingCodecState struct ImagingCodecStateInstance *
 typedef int (*ImagingCodec)(Imaging im, ImagingCodecState state,
                             UINT8* buffer, int bytes);
