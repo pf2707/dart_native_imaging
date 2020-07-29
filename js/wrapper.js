@@ -105,6 +105,27 @@ this.Image = class Image {
     return m.UTF8ToString(m._blurHashForImage(this._inst, xComponents, yComponents));
   }
 
+  async loadEncodedPromise(bytes) {
+    var url = URL.createObjectURL(new Blob([bytes]));
+    try {
+      var img = new window.Image();
+      await new Promise(function(resolve, reject) {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = url;
+      });
+      var canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      this.loadRGBA(data.width, data.height, data.data);
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  }
+
   async toJpegPromise(quality) {
     const c = document.createElement("canvas");
     c.width = this.width();

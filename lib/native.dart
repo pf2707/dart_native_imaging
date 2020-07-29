@@ -131,6 +131,10 @@ class Image {
     return Utf8.fromUtf8(blurHashForImage(_inst, xComponents, yComponents));
   }
 
+  Future<void> loadEncoded(Uint8List bytes) {
+    throw UnsupportedError('native_imaging loadEncoded is available on Web only');
+  }
+
   Future<Uint8List> toJpeg(int quality) {
     final buf = allocate<Pointer<Uint8>>();
     buf.value = nullptr;

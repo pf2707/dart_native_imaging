@@ -44,10 +44,15 @@ class Image {
   external Image transverse();
   external Image resample(int width, int height, Transform mode);
   external String toBlurhash(int xComponents, int yComponents);
+  external dynamic loadEncodedPromise(Uint8List bytes);
   external dynamic toJpegPromise(int quality);
 }
 
 extension ImageFutures on Image {
+  Future<void> loadEncoded(Uint8List bytes) {
+    return promiseToFuture(loadEncodedPromise(bytes));
+  }
+
   Future<Uint8List> toJpeg(int quality) {
     return promiseToFuture(toJpegPromise(quality));
   }
