@@ -17,7 +17,7 @@ A new flutter plugin project.
   s.dependency 'Flutter'
   s.platform = :ios, '8.0'
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => "#{File.join(File.dirname(__FILE__), 'src/blurhash')} #{File.join(File.dirname(__FILE__), 'src/libjpeg-turbo')}" }
-  s.compiler_flags = '-DBMP_SUPPORTED', '-DPPM_SUPPORTED'
+  s.compiler_flags = '-DJPEG_ENCODE', '-DBMP_SUPPORTED', '-DPPM_SUPPORTED'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }

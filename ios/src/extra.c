@@ -2,9 +2,12 @@
 #include <unistd.h>
 #include "extra.h"
 #include "encode.h"
+
+#ifdef JPEG_ENCODE
 #undef INT16
 #undef INT32
 #include <jpeglib.h>
+#endif
 
 static void
 ImagingDestroyBlock(Imaging im)
@@ -61,6 +64,7 @@ const char* blurHashForImage(Imaging im, int xComponents, int yComponents)
 	return blurHashForPixels(xComponents, yComponents, im->xsize, im->ysize, im->block, im->linesize);
 }
 
+#ifdef JPEG_ENCODE
 void jpegEncode(Imaging im, int quality, uint8_t** data, size_t* size)
 {
 	struct jpeg_compress_struct cinfo = {0};
@@ -79,3 +83,4 @@ void jpegEncode(Imaging im, int quality, uint8_t** data, size_t* size)
 	jpeg_finish_compress(&cinfo);
 	jpeg_destroy_compress(&cinfo);
 }
+#endif

@@ -1,0 +1,23 @@
+# Copyright (c) 2020 Famedly GmbH
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+stages:
+  - build
+
+build_js:
+  image: archlinux:latest
+  stage: build
+  script:
+    - pacman --noconfirm -Syu
+    - pacman --noconfirm -S emscripten libxml2 make cmake jq npm
+    - source /etc/profile
+    - sed -i 's/\bversion not in (EXPECTED_BINARYEN_VERSION, EXPECTED_BINARYEN_VERSION + 1)/False/' /usr/lib/emscripten/tools/building.py
+    - useradd -m build
+    - chown -R build .
+    - install -o build -d /usr/lib/emscripten/node_modules
+    - su -c 'cd /usr/lib/emscripten && npm install google-closure-compiler' - build
+    - su -c 'make -C js' build
+  artifacts:
+    paths:
+      - js/Imaging.js
+      - js/Imaging.wasm

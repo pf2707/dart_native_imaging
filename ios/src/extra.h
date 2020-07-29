@@ -8,4 +8,7 @@ IMAGING_EXPORT int imageHeight(Imaging im);
 IMAGING_EXPORT int imageLinesize(Imaging im);
 IMAGING_EXPORT uint8_t* imageBlock(Imaging im);
 IMAGING_EXPORT const char* blurHashForImage(Imaging im, int xComponents, int yComponents);
+
+#ifdef JPEG_ENCODE
 IMAGING_EXPORT void jpegEncode(Imaging im, int quality, uint8_t** data, size_t* size);
+#endif

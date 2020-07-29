@@ -26,7 +26,8 @@ enum Transform {
 
 @JS()
 class Image {
-  external Image(int width, int height, List<int> data);
+  external Image();
+  external void loadRGBA(int width, int height, List<int> data);
   external void free();
   external int width();
   external int height();
@@ -43,5 +44,11 @@ class Image {
   external Image transverse();
   external Image resample(int width, int height, Transform mode);
   external String toBlurhash(int xComponents, int yComponents);
-  external Uint8List toJpeg(int quality);
+  external dynamic toJpegPromise(int quality);
+}
+
+extension ImageFutures on Image {
+  Future<Uint8List> toJpeg(int quality) {
+    return promiseToFuture(toJpegPromise(quality));
+  }
 }

@@ -9,6 +9,11 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:ffi/ffi.dart' as ffi;
 
+Future<void> init() {
+  imageFromRGBA; // just load the function, not calling it
+  return Future.sync(() {});
+}
+
 // don't change the order!
 enum Transform {
   nearest,
@@ -21,13 +26,18 @@ enum Transform {
 
 class Image {
   Pointer<NativeType> _inst;
+
+  Image();
+
   Image._(this._inst);
-  Image(int width, int height, List<int> data) {
+
+  void loadRGBA(int width, int height, List<int> data) {
     assert(data.length == width * height * 4);
     final mem = allocate<Uint8>(count: data.length);
     mem.asTypedList(data.length).setAll(0, data);
     _inst = imageFromRGBA(width, height, mem);
   }
+
   void free() {
     ImagingDelete(_inst);
     _inst = nullptr;
@@ -121,14 +131,15 @@ class Image {
     return Utf8.fromUtf8(blurHashForImage(_inst, xComponents, yComponents));
   }
 
-  Uint8List toJpeg(int quality) {
+  Future<Uint8List> toJpeg(int quality) {
     final buf = allocate<Pointer<Uint8>>();
     buf.value = nullptr;
     final size = allocate<IntPtr>();
     size.value = 0;
     try {
       jpegEncode(_inst, quality, buf, size);
-      return Uint8List.fromList(buf.value.asTypedList(size.value));
+      final result = Uint8List.fromList(buf.value.asTypedList(size.value));
+      return Future.sync(() => result);
     } finally {
       if (buf.value != nullptr) ffi.free(buf.value);
       ffi.free(size);
