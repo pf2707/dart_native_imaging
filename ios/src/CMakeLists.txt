@@ -29,4 +29,9 @@ set_target_properties(Imaging PROPERTIES C_VISIBILITY_PRESET hidden)
 
 if(IPOSupport)
 set_target_properties(Imaging PROPERTIES INTERPROCEDURAL_OPTIMIZATION True)
+
+# https://reviews.llvm.org/D79919
+if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
+set_target_properties(Imaging PROPERTIES LINK_FLAGS "-O3")
+endif()
 endif()
