@@ -6,7 +6,7 @@ Imaging.js: build/libImaging.a prefix.js suffix1.js wrapper.js suffix2.js functi
 Imaging.wasm: Imaging.js
 
 functions.json: custom_functions.json build/libImaging.a
-	printf '#include "%s"\n' ../ios/src/extra.h | emcc -I ../ios/src -I ../ios/src/blurhash -I ../codegen -E - | jq -nR --argfile c $< '[$$c,[inputs | select(test("IMAGING_EXPORT")) | scan("[^ ]+(?=\\()") | "_"+.]] | flatten' > $@
+	printf '#include "%s"\n' ../ios/src/extra.h | emcc -I ../ios/src -I ../ios/src/blurhash -I ../codegen -E - | jq -nR --argfile c $< '$$c + [inputs | select(test("IMAGING_EXPORT")) | scan("[^ ]+(?=\\()") | "_"+.]' > $@
 
 build/lib%.a: build/Makefile FORCE
 	$(MAKE) -C build $*
