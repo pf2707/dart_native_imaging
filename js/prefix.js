@@ -1,1 +1,1 @@
-Imaging = (function() {
+var Imaging = (function() {
