@@ -6,7 +6,7 @@ JS_FUNCTIONS := functions.json
 JS_METHODS := runtime_methods.json
 
 Imaging.js: build/libImaging.a $(JS_FUNCTIONS) $(JS_METHODS) $(JS_PREFIX) $(JS_SUFFIX)
-	emcc -s MODULARIZE=1 -s ALLOW_MEMORY_GROWTH=1 -O3 \
+	emcc -s MODULARIZE=1 -s ALLOW_MEMORY_GROWTH=1 -O3 --closure 1 \
 	    -s EXPORTED_FUNCTIONS=@$(JS_FUNCTIONS) \
 	    -s EXPORTED_RUNTIME_METHODS=@$(JS_METHODS) \
 	    $(foreach f,$(JS_PREFIX),--extern-pre-js $(f)) \
