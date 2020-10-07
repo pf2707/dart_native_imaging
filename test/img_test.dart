@@ -11,7 +11,7 @@ import 'dart:io';
 void main() async {
   await init();
 
-  test("create image", () async {
+  test("thumbnail and blurhash", () async {
     final im = Image();
     im.loadRGBA(800, 600, Uint8List(800 * 600 * 4));
     final im2 = im.resample(80, 60, Transform.lanczos);
@@ -23,5 +23,13 @@ void main() async {
     expect(blob[0], 0xff);
     expect(blob[1], 0xd8);
     expect(blurhash, "L00000fQfQfQfQfQfQfQfQfQfQfQ");
+  });
+
+  test("gaussian blur", () async {
+    final im = Image();
+    im.loadRGBA(800, 600, Uint8List(800 * 600 * 4));
+    final im2 = im.gaussianBlur(10, 2);
+    im.free();
+    im2.free();
   });
 }
