@@ -29,6 +29,7 @@ class Image {
   external Image();
   external void loadRGBA(int width, int height, List<int> data);
   external void free();
+  external String mode();
   external int width();
   external int height();
   external int linesize();

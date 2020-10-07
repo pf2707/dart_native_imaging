@@ -47,6 +47,10 @@ class Image {
     return imageMode(_inst);
   }
 
+  String mode() {
+    return Utf8.fromUtf8(_mode());
+  }
+
   int width() {
     return imageWidth(_inst);
   }
