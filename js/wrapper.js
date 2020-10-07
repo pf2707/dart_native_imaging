@@ -18,7 +18,7 @@ this.Image = class Image {
   }
 
   mode() {
-    return m.UTF8ToString(m._imageMode(_inst));
+    return m.UTF8ToString(m._imageMode(this._inst));
   }
 
   width() {
@@ -46,49 +46,49 @@ this.Image = class Image {
   }
 
   gaussianBlur(radius, passes) {
-    const out = m._ImagingNewDirty(_mode(), width(), height());
+    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
     m._ImagingGaussianBlur(out, this._inst, radius, passes);
     return new Image(out);
   }
 
   rotate90() {
-    const out = m._ImagingNewDirty(_mode(), height(), width());
+    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
     m._ImagingRotate90(out, this._inst);
     return new Image(out);
   }
 
   rotate180() {
-    const out = m._ImagingNewDirty(_mode(), width(), height());
+    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
     m._ImagingRotate180(out, this._inst);
     return new Image(out);
   }
 
   rotate270() {
-    const out = m._ImagingNewDirty(_mode(), height(), width());
+    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
     m._ImagingRotate270(out, this._inst);
     return new Image(out);
   }
 
   flipLeftRight() {
-    const out = m._ImagingNewDirty(_mode(), width(), height());
+    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
     m._ImagingFlipLeftRight(out, this._inst);
     return new Image(out);
   }
 
   flipTopBottom() {
-    const out = m._ImagingNewDirty(_mode(), width(), height());
+    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
     m._ImagingFlipTopBottom(out, this._inst);
     return new Image(out);
   }
 
   transpose() {
-    const out = m._ImagingNewDirty(_mode(), height(), width());
+    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
     m._ImagingTranspose(out, this._inst);
     return new Image(out);
   }
 
   transverse() {
-    const out = m._ImagingNewDirty(_mode(), height(), width());
+    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
     m._ImagingTransverse(out, this._inst);
     return new Image(out);
   }
