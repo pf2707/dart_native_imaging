@@ -17,8 +17,12 @@ this.Image = class Image {
     this._inst = null;
   }
 
+  _mode() {
+    return m._imageMode(this._inst);
+  }
+
   mode() {
-    return m.UTF8ToString(m._imageMode(this._inst));
+    return m.UTF8ToString(this._mode());
   }
 
   width() {
