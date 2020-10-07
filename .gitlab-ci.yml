@@ -11,7 +11,6 @@ build_js:
     - pacman --noconfirm -Syu
     - pacman --noconfirm -S emscripten libxml2 make cmake jq npm
     - source /etc/profile
-    - sed -i 's/\bversion not in (EXPECTED_BINARYEN_VERSION, EXPECTED_BINARYEN_VERSION + 1)/False/' /usr/lib/emscripten/tools/building.py
     - useradd -m build
     - chown -R build .
     - install -o build -d /usr/lib/emscripten/node_modules
