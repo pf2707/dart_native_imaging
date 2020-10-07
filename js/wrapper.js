@@ -14,7 +14,7 @@ this.Image = class Image {
 
   free() {
     m._ImagingDelete(this._inst);
-    m._inst = null;
+    this._inst = null;
   }
 
   mode() {
