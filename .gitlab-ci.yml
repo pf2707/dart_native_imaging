@@ -3,6 +3,7 @@
 
 stages:
   - build
+  - test
 
 build_js:
   image: archlinux:latest
@@ -20,3 +21,33 @@ build_js:
     paths:
       - js/Imaging.js
       - js/Imaging.wasm
+
+test_js:
+  image: archlinux:latest
+  stage: test
+  needs:
+    - build_js
+  script:
+    - pacman --noconfirm -Syu
+    - pacman --noconfirm -S chromium dart
+    - source /etc/profile
+    - useradd -m test
+    - chown -R test .
+    - sed -i '/^flutter:/,$d;/flutter/d' pubspec.yaml
+    - su -c 'pub get' test
+    - su -c 'pub run test -p chrome' test
+
+test_native:
+  image: archlinux:latest
+  stage: test
+  needs: []
+  script:
+    - pacman --noconfirm -Syu
+    - pacman --noconfirm -S dart binutils gcc make cmake
+    - source /etc/profile
+    - useradd -m test
+    - chown -R test .
+    - sed -i '/^flutter:/,$d;/flutter/d' pubspec.yaml
+    - su -c ./scripts/prepare.sh test
+    - su -c 'pub get' test
+    - su -c 'LD_LIBRARY_PATH=$(pwd)/build pub run test' test
