@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import 'src/ffi.dart';
-import 'dart:convert';
 import 'dart:ffi';
-import 'dart:math';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:ffi/ffi.dart' as ffi;

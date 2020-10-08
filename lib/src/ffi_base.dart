@@ -3,7 +3,6 @@
 
 import 'dart:ffi';
 import 'dart:io';
-import 'package:ffi/ffi.dart';
 
 final libImaging = Platform.isIOS
     ? DynamicLibrary.process()

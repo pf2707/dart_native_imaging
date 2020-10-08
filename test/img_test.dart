@@ -3,10 +3,7 @@
 
 import 'package:native_imaging/native_imaging.dart';
 import 'package:test/test.dart';
-import 'dart:convert';
 import 'dart:typed_data';
-
-import 'dart:io';
 
 void main() async {
   await init();
