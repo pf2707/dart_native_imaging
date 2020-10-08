@@ -30,7 +30,7 @@ foreach( foreach(
     if .p then del(.p, .s) else . end | if .co then . else
         if .s then .s += "\n" + $l.s else $l + {c} end
       | if .s | count("\\(") == count("\\)") then
-            if .s | test("\\)\\s*{") then
+            if .s | test("\\)(\\s*{|;)") then
                 .s |= (sub("\\s*{.*$"; ";") | sub("^(?<sp>\\s*)"; .sp + "external "))
               | .co = .c
               | (.m1, .m2) = if .pre then 1 else 2 end
@@ -46,7 +46,10 @@ foreach( foreach(
   | .c += ($l.s | count("{") - count("}"))
   | if .c == .co then del(.co) else . end
 ; if .p then
-    if .s | test("^import|[ .]_|Future<|Pointer<") then {} else . end
+    if (.s | test("Future<")) and (.c > 1) then
+      .s |= (sub("Future<.*>"; "dynamic") | sub("\\(";"Promise("))
+    else . end
+  | if .s | test("^import|[ .]_|Future<|Pointer<") then {} else . end
   else empty end)
 ) as $x ({};
   if $x.s then
@@ -58,4 +61,15 @@ foreach( foreach(
   else
     del(.p) | .m2 = ([.m2, .m2r] | max)
   end
-; .p // empty)
+; .p // empty),
+
+"
+extension ImageFutures on Image {
+  Future<void> loadEncoded(Uint8List bytes) {
+    return promiseToFuture(loadEncodedPromise(bytes));
+  }
+
+  Future<Uint8List> toJpeg(int quality) {
+    return promiseToFuture(toJpegPromise(quality));
+  }
+}"
