@@ -11,4 +11,6 @@ final libImaging = Platform.isIOS
         ? 'libImaging.so'
         : Platform.isWindows
             ? 'libImaging.dll'
-            : Platform.isMacOS ? 'libImaging.dylib' : 'libImaging.so');
+            : Platform.isMacOS
+                ? 'libImaging.dylib'
+                : 'libImaging.so');

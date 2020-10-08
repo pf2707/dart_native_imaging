@@ -116,7 +116,8 @@ class Image {
   }
 
   Future<void> loadEncoded(Uint8List bytes) {
-    throw UnsupportedError('native_imaging loadEncoded is available on Web only');
+    throw UnsupportedError(
+        'native_imaging loadEncoded is available on Web only');
   }
 
   Future<Uint8List> toJpeg(int quality) {
