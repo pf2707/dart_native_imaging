@@ -28,7 +28,6 @@ class Image {
   Pointer<NativeType> _inst;
 
   Image();
-
   Image._(this._inst);
 
   void loadRGBA(int width, int height, List<int> data) {
@@ -43,29 +42,12 @@ class Image {
     _inst = nullptr;
   }
 
-  Pointer<Utf8> _mode() {
-    return imageMode(_inst);
-  }
-
-  String mode() {
-    return Utf8.fromUtf8(_mode());
-  }
-
-  int width() {
-    return imageWidth(_inst);
-  }
-
-  int height() {
-    return imageHeight(_inst);
-  }
-
-  int linesize() {
-    return imageLinesize(_inst);
-  }
-
-  Pointer<Uint8> block() {
-    return imageBlock(_inst);
-  }
+  Pointer<Utf8> _mode() => imageMode(_inst);
+  String mode() => Utf8.fromUtf8(_mode());
+  int width() => imageWidth(_inst);
+  int height() => imageHeight(_inst);
+  int linesize() => imageLinesize(_inst);
+  Pointer<Uint8> block() => imageBlock(_inst);
 
   Image copy() {
     return Image._(ImagingCopy(_inst));
