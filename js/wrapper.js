@@ -99,10 +99,14 @@ this.Image = class Image {
 
   resample(width, height, mode) {
     const modeidx = ["nearest", "lanczos", "bilinear", "bicubic", "box", "hamming"].indexOf(mode.toString().split(".").slice(-1)[0]);
-    const box = m._malloc(4 * 4);
-    m.HEAPF32.set([0, 0, this.width(), this.height()], box / 4);
-    var im = new Image(m._ImagingResample(this._inst, width, height, modeidx, box));
-    return im;
+    const sp = m.stackSave();
+    try {
+      const box = m.stackAlloc(4 * 4);
+      m.HEAPF32.set([0, 0, this.width(), this.height()], box / 4);
+      return new Image(m._ImagingResample(this._inst, width, height, modeidx, box));
+    } finally {
+      m.stackRestore(sp);
+    }
   }
 
   toBlurhash(xComponents, yComponents) {
