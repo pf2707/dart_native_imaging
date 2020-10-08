@@ -25,6 +25,15 @@ void main() async {
     expect(blurhash, "L00000fQfQfQfQfQfQfQfQfQfQfQ");
   });
 
+  test("get metadata", () async {
+    final im = Image();
+    im.loadRGBA(200, 100, Uint8List(200 * 100 * 4));
+    expect(im.mode(), "RGBA");
+    expect(im.width(), 200);
+    expect(im.height(), 100);
+    expect(im.linesize(), 200 * 4);
+  });
+
   test("gaussian blur", () async {
     final im = Image();
     im.loadRGBA(800, 600, Uint8List(800 * 600 * 4));
