@@ -17,28 +17,28 @@ this.Image = class Image {
     this._inst = null;
   }
 
-  _mode() {
+  get _mode() {
     return m._imageMode(this._inst);
   }
 
-  mode() {
-    return m.UTF8ToString(this._mode());
+  get mode() {
+    return m.UTF8ToString(this._mode);
   }
 
-  width() {
+  get width() {
     return m._imageWidth(this._inst);
   }
 
-  height() {
+  get height() {
     return m._imageHeight(this._inst);
   }
 
-  linesize() {
+  get linesize() {
     return m._imageLinesize(this._inst);
   }
 
-  block() {
-    return new Uint8ClampedArray(m.HEAPU8.buffer, m._imageBlock(this._inst), this.height() * this.linesize());
+  get block() {
+    return new Uint8ClampedArray(m.HEAPU8.buffer, m._imageBlock(this._inst), this.height * this.linesize);
   }
 
   copy() {
@@ -50,49 +50,49 @@ this.Image = class Image {
   }
 
   gaussianBlur(radius, passes) {
-    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
+    const out = m._ImagingNewDirty(this._mode, this.width, this.height);
     m._ImagingGaussianBlur(out, this._inst, radius, passes);
     return new Image(out);
   }
 
   rotate90() {
-    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
+    const out = m._ImagingNewDirty(this._mode, this.height, this.width);
     m._ImagingRotate90(out, this._inst);
     return new Image(out);
   }
 
   rotate180() {
-    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
+    const out = m._ImagingNewDirty(this._mode, this.width, this.height);
     m._ImagingRotate180(out, this._inst);
     return new Image(out);
   }
 
   rotate270() {
-    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
+    const out = m._ImagingNewDirty(this._mode, this.height, this.width);
     m._ImagingRotate270(out, this._inst);
     return new Image(out);
   }
 
   flipLeftRight() {
-    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
+    const out = m._ImagingNewDirty(this._mode, this.width, this.height);
     m._ImagingFlipLeftRight(out, this._inst);
     return new Image(out);
   }
 
   flipTopBottom() {
-    const out = m._ImagingNewDirty(this._mode(), this.width(), this.height());
+    const out = m._ImagingNewDirty(this._mode, this.width, this.height);
     m._ImagingFlipTopBottom(out, this._inst);
     return new Image(out);
   }
 
   transpose() {
-    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
+    const out = m._ImagingNewDirty(this._mode, this.height, this.width);
     m._ImagingTranspose(out, this._inst);
     return new Image(out);
   }
 
   transverse() {
-    const out = m._ImagingNewDirty(this._mode(), this.height(), this.width());
+    const out = m._ImagingNewDirty(this._mode, this.height, this.width);
     m._ImagingTransverse(out, this._inst);
     return new Image(out);
   }
@@ -102,7 +102,7 @@ this.Image = class Image {
     const sp = m.stackSave();
     try {
       const box = m.stackAlloc(4 * 4);
-      m.HEAPF32.set([0, 0, this.width(), this.height()], box / 4);
+      m.HEAPF32.set([0, 0, this.width, this.height], box / 4);
       return new Image(m._ImagingResample(this._inst, width, height, modeidx, box));
     } finally {
       m.stackRestore(sp);
@@ -136,9 +136,9 @@ this.Image = class Image {
 
   async toJpegPromise(quality) {
     const c = document.createElement("canvas");
-    c.width = this.width();
-    c.height = this.height();
-    const im = new ImageData(this.block(), c.width, c.height);
+    c.width = this.width;
+    c.height = this.height;
+    const im = new ImageData(this.block, c.width, c.height);
     const ctx = c.getContext("2d");
     ctx.putImageData(im, 0, 0);
     const blob = await new Promise(function(resolve, reject) {

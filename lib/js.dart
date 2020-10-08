@@ -29,10 +29,10 @@ class Image {
   external Image();
   external void loadRGBA(int width, int height, List<int> data);
   external void free();
-  external String mode();
-  external int width();
-  external int height();
-  external int linesize();
+  external String get mode;
+  external int get width;
+  external int get height;
+  external int get linesize;
   external Image copy();
   external Image blend(Image other, double alpha);
   external Image gaussianBlur(double radius, int passes);

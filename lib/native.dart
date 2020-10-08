@@ -42,12 +42,12 @@ class Image {
     _inst = nullptr;
   }
 
-  Pointer<Utf8> _mode() => imageMode(_inst);
-  String mode() => Utf8.fromUtf8(_mode());
-  int width() => imageWidth(_inst);
-  int height() => imageHeight(_inst);
-  int linesize() => imageLinesize(_inst);
-  Pointer<Uint8> block() => imageBlock(_inst);
+  Pointer<Utf8> get _mode => imageMode(_inst);
+  String get mode => Utf8.fromUtf8(_mode);
+  int get width => imageWidth(_inst);
+  int get height => imageHeight(_inst);
+  int get linesize => imageLinesize(_inst);
+  Pointer<Uint8> get block => imageBlock(_inst);
 
   Image copy() {
     return Image._(ImagingCopy(_inst));
@@ -58,49 +58,49 @@ class Image {
   }
 
   Image gaussianBlur(double radius, int passes) {
-    final out = ImagingNewDirty(_mode(), width(), height());
+    final out = ImagingNewDirty(_mode, width, height);
     ImagingGaussianBlur(out, _inst, radius, passes);
     return Image._(out);
   }
 
   Image rotate90() {
-    final out = ImagingNewDirty(_mode(), height(), width());
+    final out = ImagingNewDirty(_mode, height, width);
     ImagingRotate90(out, _inst);
     return Image._(out);
   }
 
   Image rotate180() {
-    final out = ImagingNewDirty(_mode(), width(), height());
+    final out = ImagingNewDirty(_mode, width, height);
     ImagingRotate180(out, _inst);
     return Image._(out);
   }
 
   Image rotate270() {
-    final out = ImagingNewDirty(_mode(), height(), width());
+    final out = ImagingNewDirty(_mode, height, width);
     ImagingRotate270(out, _inst);
     return Image._(out);
   }
 
   Image flipLeftRight() {
-    final out = ImagingNewDirty(_mode(), width(), height());
+    final out = ImagingNewDirty(_mode, width, height);
     ImagingFlipLeftRight(out, _inst);
     return Image._(out);
   }
 
   Image flipTopBottom() {
-    final out = ImagingNewDirty(_mode(), width(), height());
+    final out = ImagingNewDirty(_mode, width, height);
     ImagingFlipTopBottom(out, _inst);
     return Image._(out);
   }
 
   Image transpose() {
-    final out = ImagingNewDirty(_mode(), height(), width());
+    final out = ImagingNewDirty(_mode, height, width);
     ImagingTranspose(out, _inst);
     return Image._(out);
   }
 
   Image transverse() {
-    final out = ImagingNewDirty(_mode(), height(), width());
+    final out = ImagingNewDirty(_mode, height, width);
     ImagingTransverse(out, _inst);
     return Image._(out);
   }
@@ -109,7 +109,7 @@ class Image {
     final box = allocate<Float>(count: 4);
     box
         .asTypedList(4)
-        .setAll(0, [0, 0, this.width().toDouble(), this.height().toDouble()]);
+        .setAll(0, [0, 0, this.width.toDouble(), this.height.toDouble()]);
     return Image._(ImagingResample(_inst, width, height, mode.index, box));
   }
 
