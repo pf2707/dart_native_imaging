@@ -60,6 +60,7 @@ test_native:
     - su -c ./scripts/prepare.sh test
     - su -c 'pub get' test
     - su -c 'LD_LIBRARY_PATH=$(pwd)/build pub run test' test
+    - su -c 'LD_LIBRARY_PATH=$(pwd)/build dart example/example.dart' test
 
 pages:
   stage: deploy
