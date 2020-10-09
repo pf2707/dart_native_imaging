@@ -8,7 +8,10 @@ import 'package:ffi/ffi.dart';
 import 'package:ffi/ffi.dart' as ffi;
 
 Future<void> init() {
-  imageFromRGBA; // just load the function, not calling it
+  // ensure the library is available by loading a function
+  // ignore: unnecessary_statements
+  imageFromRGBA;
+
   return Future.sync(() {});
 }
 

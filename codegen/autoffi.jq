@@ -54,6 +54,7 @@ def namt:
     end;
 
 "// Auto-generated file.
+// ignore_for_file: non_constant_identifier_names
 
 import 'ffi_base.dart';
 import 'dart:ffi';
