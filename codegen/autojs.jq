@@ -12,7 +12,7 @@ import 'dart:async';
 import 'dart:js_util';
 import 'dart:typed_data';
 
-@JS(\"init\")
+@JS('init')
 external dynamic _init();
 
 Future<void> init() {
