@@ -4,6 +4,7 @@
 stages:
   - build
   - test
+  - deploy
 
 code_analyze:
   image: cirrusci/flutter
@@ -59,3 +60,16 @@ test_native:
     - su -c ./scripts/prepare.sh test
     - su -c 'pub get' test
     - su -c 'LD_LIBRARY_PATH=$(pwd)/build pub run test' test
+
+pages:
+  stage: deploy
+  needs: []
+  image: cirrusci/flutter
+  script:
+    - ./scripts/doc.sh
+    - mv doc/api public
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
