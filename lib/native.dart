@@ -108,8 +108,12 @@ class Image {
 
   Image resample(int width, int height, Transform mode) {
     final box = allocate<Float>(count: 4);
-    box.asTypedList(4).setAll(0, [0, 0, width.toDouble(), height.toDouble()]);
-    return Image._(ImagingResample(_inst, width, height, mode.index, box));
+    try {
+      box.asTypedList(4).setAll(0, [0, 0, width.toDouble(), height.toDouble()]);
+      return Image._(ImagingResample(_inst, width, height, mode.index, box));
+    } finally {
+      ffi.free(box);
+    }
   }
 
   String toBlurhash(int xComponents, int yComponents) {
