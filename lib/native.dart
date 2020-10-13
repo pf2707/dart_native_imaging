@@ -109,7 +109,9 @@ class Image {
   Image resample(int width, int height, Transform mode) {
     final box = allocate<Float>(count: 4);
     try {
-      box.asTypedList(4).setAll(0, [0, 0, width.toDouble(), height.toDouble()]);
+      box
+          .asTypedList(4)
+          .setAll(0, [0, 0, this.width.toDouble(), this.height.toDouble()]);
       return Image._(ImagingResample(_inst, width, height, mode.index, box));
     } finally {
       ffi.free(box);
