@@ -19,8 +19,6 @@ static int encodeAC(float r, float g, float b, float maximumValue);
 static float signPow(float value, float exp);
 
 const char *blurHashForPixels(int xComponents, int yComponents, int width, int height, uint8_t *rgb, size_t bytesPerRow) {
-	static char buffer[2 + 4 + (9 * 9 - 1) * 2 + 1];
-
 	if(xComponents < 1 || xComponents > 9) return NULL;
 	if(yComponents < 1 || yComponents > 9) return NULL;
 
@@ -39,6 +37,7 @@ const char *blurHashForPixels(int xComponents, int yComponents, int width, int h
 	float *dc = factors[0][0];
 	float *ac = dc + 3;
 	int acCount = xComponents * yComponents - 1;
+	char *buffer = malloc(2 + 4 + acCount * 2 + 1);
 	char *ptr = buffer;
 
 	int sizeFlag = (xComponents - 1) + (yComponents - 1) * 9;

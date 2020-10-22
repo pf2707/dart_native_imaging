@@ -119,7 +119,12 @@ class Image {
   }
 
   String toBlurhash(int xComponents, int yComponents) {
-    return Utf8.fromUtf8(blurHashForImage(_inst, xComponents, yComponents));
+    final ptr = blurHashForImage(_inst, xComponents, yComponents);
+    try {
+      return Utf8.fromUtf8(ptr);
+    } finally {
+      ffi.free(ptr);
+    }
   }
 
   Future<void> loadEncoded(Uint8List bytes) {
