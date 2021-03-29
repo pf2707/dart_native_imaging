@@ -31,6 +31,6 @@ void main() async {
   final blurhash = nativeImg.toBlurhash(3, 3);
   nativeImg.free();
 
-  print('Blurhash: ${blurhash}');
+  print('Blurhash: $blurhash');
   File('output.jpg').writeAsBytesSync(jpegBytes);
 }
