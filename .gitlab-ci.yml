@@ -21,12 +21,10 @@ build_js:
   stage: build
   script:
     - pacman --noconfirm -Syu
-    - pacman --noconfirm -S emscripten libxml2 make cmake jq npm
+    - pacman --noconfirm -S emscripten libxml2 make cmake jq
     - source /etc/profile
     - useradd -m build
     - chown -R build .
-    - install -o build -d /usr/lib/emscripten/node_modules
-    - su -c 'cd /usr/lib/emscripten && npm install google-closure-compiler' - build
     - su -c 'make -C js' build
   artifacts:
     paths:
