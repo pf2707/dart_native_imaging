@@ -6,10 +6,10 @@ this.Image = class Image {
     this._inst = inst;
   }
 
-  loadRGBA(width, height, data) {
+  static fromRGBA(width, height, data) {
     const mem = m._malloc(width * height * 4);
     new Uint8ClampedArray(m.HEAPU8.buffer, mem, width * height * 4).set(data);
-    this._inst = m._imageFromRGBA(width, height, mem);
+    return new Image(m._imageFromRGBA(width, height, mem));
   }
 
   free() {
@@ -113,7 +113,7 @@ this.Image = class Image {
     return m.UTF8ToString(m._blurHashForImage(this._inst, xComponents, yComponents));
   }
 
-  async loadEncodedPromise(bytes) {
+  static async loadEncodedPromise(bytes) {
     var url = URL.createObjectURL(new Blob([bytes]));
     try {
       var img = new window.Image();
@@ -128,7 +128,7 @@ this.Image = class Image {
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
       var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      this.loadRGBA(data.width, data.height, data.data);
+      return Image(data.width, data.height, data.data);
     } finally {
       URL.revokeObjectURL(url);
     }
