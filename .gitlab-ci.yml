@@ -42,8 +42,8 @@ test_js:
     - source /etc/profile
     - useradd -m test
     - chown -R test .
-    - su -c 'pub get' test
-    - su -c 'pub run test -p chrome' test
+    - su -c 'dart pub get' test
+    - su -c 'dart run test -p chrome' test
 
 test_native:
   image: archlinux:latest
@@ -56,8 +56,8 @@ test_native:
     - useradd -m test
     - chown -R test .
     - su -c ./scripts/prepare.sh test
-    - su -c 'pub get' test
-    - su -c 'LD_LIBRARY_PATH=$(pwd)/build pub run test' test
+    - su -c 'dart pub get' test
+    - su -c 'LD_LIBRARY_PATH=$(pwd)/build dart run test' test
     - su -c 'LD_LIBRARY_PATH=$(pwd)/build dart example/example.dart' test
 
 pages:
