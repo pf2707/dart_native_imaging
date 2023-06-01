@@ -3,10 +3,11 @@
 @JS('Imaging')
 library js;
 
-import 'package:js/js.dart';
 import 'dart:async';
 import 'dart:js_util';
 import 'dart:typed_data';
+
+import 'package:js/js.dart';
 
 @JS('init')
 external dynamic _init();

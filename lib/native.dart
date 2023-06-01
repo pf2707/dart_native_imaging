@@ -1,11 +1,13 @@
 // Copyright (c) 2020 Famedly GmbH
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import 'src/ffi.dart';
 import 'dart:ffi';
 import 'dart:typed_data';
-import 'package:ffi/ffi.dart';
+
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:ffi/ffi.dart';
+
+import 'src/ffi.dart';
 
 Future<void> init() {
   // ensure the library is available by loading a function

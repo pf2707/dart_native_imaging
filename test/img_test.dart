@@ -1,9 +1,11 @@
 // Copyright (c) 2020 Famedly GmbH
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import 'package:native_imaging/native_imaging.dart';
-import 'package:test/test.dart';
 import 'dart:typed_data';
+
+import 'package:test/test.dart';
+
+import 'package:native_imaging/native_imaging.dart';
 
 void main() async {
   await init();
