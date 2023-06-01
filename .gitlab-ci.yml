@@ -1,20 +1,15 @@
 # Copyright (c) 2020 Famedly GmbH
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+include:
+  - project: "famedly/company/frontend/ci-templates"
+    ref: main
+    file: "/all.yml"
+
 stages:
   - build
   - test
   - deploy
-
-code_analyze:
-  image: cirrusci/flutter
-  stage: test
-  needs: []
-  script:
-    - mv lib/src/ffi.dart lib/src/ffi.txt
-    - flutter format . --set-exit-if-changed
-    - mv lib/src/ffi.txt lib/src/ffi.dart
-    - flutter analyze
 
 build_js:
   image: archlinux:latest
@@ -59,16 +54,3 @@ test_native:
     - su -c 'dart pub get' test
     - su -c 'LD_LIBRARY_PATH=$(pwd)/build dart run test' test
     - su -c 'LD_LIBRARY_PATH=$(pwd)/build dart example/example.dart' test
-
-pages:
-  stage: deploy
-  needs: []
-  image: cirrusci/flutter
-  script:
-    - ./scripts/doc.sh
-    - mv doc/api public
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
