@@ -3,10 +3,11 @@
 @JS('Imaging')
 library js;
 
-import 'package:js/js.dart';
 import 'dart:async';
 import 'dart:js_util';
 import 'dart:typed_data';
+
+import 'package:js/js.dart';
 
 @JS('init')
 external dynamic _init();
@@ -26,8 +27,10 @@ enum Transform {
 
 @JS()
 class Image {
-  external Image();
-  external void loadRGBA(int width, int height, List<int> data);
+  external static Image fromRGBA(int width, int height, List<int> data);
+  external static dynamic loadEncodedPromise(Uint8List bytes);
+  static Future<Image> loadEncoded(Uint8List bytes) =>
+      promiseToFuture(loadEncodedPromise(bytes));
   external void free();
   external String get mode;
   external int get width;
@@ -45,16 +48,10 @@ class Image {
   external Image transverse();
   external Image resample(int width, int height, Transform mode);
   external String toBlurhash(int xComponents, int yComponents);
-  external dynamic loadEncodedPromise(Uint8List bytes);
   external dynamic toJpegPromise(int quality);
 }
 
 extension ImageFutures on Image {
-  Future<void> loadEncoded(Uint8List bytes) {
-    return promiseToFuture(loadEncodedPromise(bytes));
-  }
-
-  Future<Uint8List> toJpeg(int quality) {
-    return promiseToFuture(toJpegPromise(quality));
-  }
+  Future<Uint8List> toJpeg(int quality) =>
+      promiseToFuture(toJpegPromise(quality));
 }

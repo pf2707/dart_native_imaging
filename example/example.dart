@@ -8,10 +8,10 @@ import 'dart:io';
 void main() async {
   await native.init();
 
-  var nativeImg = native.Image();
   final width = 800;
   final height = 600;
-  nativeImg.loadRGBA(width, height, Uint8List(width * height * 4));
+  var nativeImg =
+      native.Image.fromRGBA(width, height, Uint8List(width * height * 4));
 
   const max = 300;
   if (width > max || height > max) {

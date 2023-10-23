@@ -1,11 +1,13 @@
 // Copyright (c) 2020 Famedly GmbH
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import 'src/ffi.dart';
 import 'dart:ffi';
 import 'dart:typed_data';
-import 'package:ffi/ffi.dart';
+
 import 'package:ffi/ffi.dart' as ffi;
+import 'package:ffi/ffi.dart';
+
+import 'src/ffi.dart';
 
 Future<void> init() {
   // ensure the library is available by loading a function
@@ -28,14 +30,13 @@ enum Transform {
 class Image {
   Pointer<NativeType> _inst;
 
-  Image();
   Image._(this._inst);
 
-  void loadRGBA(int width, int height, List<int> data) {
+  static Image fromRGBA(int width, int height, List<int> data) {
     assert(data.length == width * height * 4);
     final mem = malloc.call<Uint8>(data.length);
     mem.asTypedList(data.length).setAll(0, data);
-    _inst = imageFromRGBA(width, height, mem);
+    return Image._(imageFromRGBA(width, height, mem));
   }
 
   void free() {
@@ -127,7 +128,7 @@ class Image {
     }
   }
 
-  Future<void> loadEncoded(Uint8List bytes) {
+  static Future<Image> loadEncoded(Uint8List bytes) {
     throw UnsupportedError(
         'native_imaging loadEncoded is available on Web only');
   }
