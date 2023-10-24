@@ -7,11 +7,34 @@ on:
 
 jobs:
 
+  # Publish using the reusable workflow from dart-lang.
+  # Slightly modified to run our prep script first.
   publish:
+    name: Publish to pub.dev
+    environment: pub.dev
     permissions:
       contents: read
-      id-token: write
-    uses: famedly/frontend-ci-templates/.github/workflows/publish-pub.yml@main
+      id-token: write # This is required for requesting the JWT
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository
+      - uses: actions/checkout@v3
+      # Setup Dart SDK with JWT token
+      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
+        with:
+          flutter-version: '3.13.8'
+          channel: stable
+          cache: true
+      # Minimal package setup and dry run checks.
+      - name: Install dependencies
+        run: flutter pub get
+      # has the oidc bits
+      - uses: dart-lang/setup-dart@a57a6c04cf7d4840e88432aad6281d1e125f0d46 
+      - name: Dry run 
+        run: flutter pub publish --dry-run
+      # Publishing...
+      - name: Publish to pub.dev
+        run: flutter pub publish -f
 
   build_js:
     runs-on: ubuntu-latest
