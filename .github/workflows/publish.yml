@@ -18,11 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Setup Dart SDK with JWT token
       - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
         with:
-          flutter-version: '3.13.8'
+          flutter-version: ${{ env.flutter_version }}
           channel: stable
           cache: true
       # Minimal package setup and dry run checks.
@@ -41,7 +41,7 @@ jobs:
     # becuase I was lazy to setup the emsc with closure thingy
     container: docker.io/archlinux/archlinux:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build JS and WASM
         run: |
           pacman --noconfirm -Syu
@@ -51,7 +51,7 @@ jobs:
           chown -R build .
           su -c 'make -C js' build
           zip native_imaging.zip js/Imaging.js js/Imaging.wasm
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: native_imaging.zip
           path: native_imaging.zip
@@ -62,8 +62,8 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: native_imaging.zip
           path: .
