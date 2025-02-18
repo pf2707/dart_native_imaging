@@ -1,3 +1,6 @@
+# 0.2.0
+- refactor: Remove deprecated flutter v1 android reference (Krille)
+
 # 0.1.2
 - chore: Add codeowners (Krille)
 - chore: upgrade gradle to 8.4.1 (Mohammad Reza Moradi)
