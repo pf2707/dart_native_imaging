@@ -4,8 +4,8 @@
 name: native_imaging
 version: 0.1.1
 description: Dart bindings for Imaging from Pillow with jpeg and blurhash encoders
-homepage: https://famedly.gitlab.io/libraries/native_imaging/
-repository: https://gitlab.com/famedly/libraries/native_imaging
+homepage: https://github.com/famedly/dart_native_imaging
+repository: https://github.com/famedly/dart_native_imaging/issues
 
 environment:
   sdk: ">=2.16.0 <4.0.0"

@@ -6,10 +6,31 @@ on:
       - v[0-9]+.[0-9]+.[0-9]+
 
 jobs:
+  build_js:
+    runs-on: ubuntu-latest
+    # becuase I was lazy to setup the emsc with closure thingy
+    container: docker.io/archlinux/archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build JS and WASM
+        run: |
+          pacman --noconfirm -Syu
+          pacman --noconfirm -S emscripten libxml2 make cmake jq zip
+          source /etc/profile
+          useradd -m build
+          chown -R build .
+          su -c 'make -C js' build
+          zip native_imaging.zip js/Imaging.js js/Imaging.wasm
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native_imaging.zip
+          path: native_imaging.zip
 
   # Publish using the reusable workflow from dart-lang.
   # Slightly modified to run our prep script first.
+  # If build js failed do not release on pub.dev
   publish:
+    needs: [build_js]
     name: Publish to pub.dev
     environment: pub.dev
     permissions:
@@ -18,11 +39,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout repository
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Setup Dart SDK with JWT token
       - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa
         with:
-          flutter-version: '3.13.8'
+          flutter-version: ${{ env.flutter_version }}
           channel: stable
           cache: true
       # Minimal package setup and dry run checks.
@@ -36,34 +57,14 @@ jobs:
       - name: Publish to pub.dev
         run: flutter pub publish -f
 
-  build_js:
-    runs-on: ubuntu-latest
-    # becuase I was lazy to setup the emsc with closure thingy
-    container: docker.io/archlinux/archlinux:latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build JS and WASM
-        run: |
-          pacman --noconfirm -Syu
-          pacman --noconfirm -S emscripten libxml2 make cmake jq zip
-          source /etc/profile
-          useradd -m build
-          chown -R build .
-          su -c 'make -C js' build
-          zip native_imaging.zip js/Imaging.js js/Imaging.wasm
-      - uses: actions/upload-artifact@v3
-        with:
-          name: native_imaging.zip
-          path: native_imaging.zip
-
   create_release:
     needs: [build_js]
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           name: native_imaging.zip
           path: .
